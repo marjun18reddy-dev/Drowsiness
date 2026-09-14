@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drowsiness Detection Using CNN — Project Presentation</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN for interactive performance charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+  <!-- Top Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Header Controls Bar -->
+  <header class="presentation-nav">
+    <div class="nav-brand">
+      <span class="pulse-dot"></span>
+      <span class="brand-title">DROWSINESS CNN</span>
+      <span class="brand-badge">PyTorch</span>
+    </div>
+    
+    <div class="slide-indicator">
+      <span id="currentSlideNum">01</span> / <span id="totalSlideNum">12</span>
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-btn" id="btnPrev" title="Previous Slide (Left Arrow)" aria-label="Previous Slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="nav-btn" id="btnNext" title="Next Slide (Right Arrow)" aria-label="Next Slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <button class="nav-btn" id="btnMenu" title="Jump to Section" aria-label="Sections Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <button class="nav-btn" id="btnFullscreen" title="Toggle Fullscreen (F)" aria-label="Toggle Fullscreen">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Slide Jump Modal / Menu Drawer -->
+  <div class="menu-drawer" id="menuDrawer">
+    <div class="menu-header">
+      <h3>Presentation Outline</h3>
+      <button class="close-menu" id="btnCloseMenu">&times;</button>
+    </div>
+    <div class="menu-list" id="menuList">
+      <!-- Generated via JS -->
+    </div>
+  </div>
+
+  <!-- MAIN SLIDES CONTAINER -->
+  <main class="slides-wrapper" id="slidesWrapper">
+
+    <!-- ==========================================
+         SECTION 1 — TITLE
+    =========================================== -->
+    <section class="slide active" id="slide-1" data-title="Title">
+      <div class="slide-content title-slide">
+        <div class="title-glow"></div>
+        <div class="hero-content">
+          <div class="tech-pill-group">
+            <span class="tech-pill"><span class="icon">🔥</span> PyTorch 2.11.0</span>
+            <span class="tech-pill"><span class="icon">⚡</span> Tesla T4 GPU</span>
+            <span class="tech-pill"><span class="icon">🖼️</span> 9,120 Images</span>
+          </div>
+
+          <h1 class="main-title">DROWSINESS DETECTION</h1>
+          <h2 class="main-subtitle">CNN-Based Active / Fatigue Classification</h2>
+
+          <div class="hero-stats">
+            <div class="stat-card">
+              <span class="stat-value">9,120</span>
+              <span class="stat-label">Face Images</span>
+            </div>
+            <div class="stat-card accent-blue">
+              <span class="stat-value">DrowsinessCNN</span>
+              <span class="stat-label">Custom Architecture</span>
+            </div>
+            <div class="stat-card accent-cyan">
+              <span class="stat-value">102,082</span>
+              <span class="stat-label">Parameters</span>
+            </div>
+            <div class="stat-card accent-green">
+              <span class="stat-value">75.66%</span>
+              <span class="stat-label">Test Accuracy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 2 — PROBLEM / TASK
+    =========================================== -->
+    <section class="slide" id="slide-2" data-title="Problem / Task">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 02</span>
+          <h2>Problem & Classification Task</h2>
+          <p>Binary facial expression image classification using custom PyTorch CNN architecture.</p>
+        </div>
+
+        <div class="pipeline-flow-container">
+          <div class="flow-step">
+            <div class="step-icon">🖼️</div>
+            <div class="step-label">Input Image</div>
+            <div class="step-sub">Face Image</div>
+          </div>
+
+          <div class="flow-arrow">
+            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          <div class="flow-step accent-box">
+            <div class="step-icon">🧠</div>
+            <div class="step-label">Custom CNN</div>
+            <div class="step-sub">3-Block Feature Extractor</div>
+          </div>
+
+          <div class="flow-arrow">
+            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          <div class="flow-step">
+            <div class="step-icon">🎯</div>
+            <div class="step-label">Classification</div>
+            <div class="step-sub">2 Logit Outputs</div>
+          </div>
+        </div>
+
+        <div class="classes-grid">
+          <div class="class-card active-card">
+            <div class="class-header">
+              <span class="class-badge badge-green">Label 0</span>
+              <h3>Active Subjects</h3>
+            </div>
+            <p class="class-desc">Alert state images showing open eyes and responsive facial features.</p>
+            <div class="class-count">4,560 Total Images</div>
+          </div>
+
+          <div class="class-card fatigue-card">
+            <div class="class-header">
+              <span class="class-badge badge-amber">Label 1</span>
+              <h3>Fatigue Subjects</h3>
+            </div>
+            <p class="class-desc">Drowsy / fatigued state images showing closed or heavy eyes and yawning signatures.</p>
+            <div class="class-count">4,560 Total Images</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 3 — DATASET
+    =========================================== -->
+    <section class="slide" id="slide-3" data-title="Dataset Breakdown">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 03</span>
+          <h2>Dataset Distribution & Splits</h2>
+          <p>50/50 Balanced Binary Dataset split into Train (70%), Validation (15%), and Test (15%).</p>
+        </div>
+
+        <div class="dataset-summary-row">
+          <div class="metric-mini-card">
+            <span class="mini-title">TOTAL IMAGES</span>
+            <span class="mini-val">9,120</span>
+          </div>
+          <div class="metric-mini-card">
+            <span class="mini-title">ACTIVE SUBJECTS</span>
+            <span class="mini-val text-green">4,560 (50%)</span>
+          </div>
+          <div class="metric-mini-card">
+            <span class="mini-title">FATIGUE SUBJECTS</span>
+            <span class="mini-val text-amber">4,560 (50%)</span>
+          </div>
+          <div class="metric-mini-card">
+            <span class="mini-title">RANDOM SEED</span>
+            <span class="mini-val text-cyan">42</span>
+          </div>
+        </div>
+
+        <div class="splits-visual-container">
+          <!-- Train Split Card -->
+          <div class="split-card">
+            <div class="split-card-header">
+              <span class="split-title">Training Set</span>
+              <span class="split-pct">70%</span>
+            </div>
+            <div class="split-total">6,384 Images</div>
+            <div class="bar-stacked">
+              <div class="bar-segment active-bg" style="width: 50%;">3,192</div>
+              <div class="bar-segment fatigue-bg" style="width: 50%;">3,192</div>
+            </div>
+            <div class="bar-legend">
+              <span><i class="dot active-dot"></i> Active: 3,192</span>
+              <span><i class="dot fatigue-dot"></i> Fatigue: 3,192</span>
+            </div>
+          </div>
+
+          <!-- Validation Split Card -->
+          <div class="split-card">
+            <div class="split-card-header">
+              <span class="split-title">Validation Set</span>
+              <span class="split-pct">15%</span>
+            </div>
+            <div class="split-total">1,368 Images</div>
+            <div class="bar-stacked">
+              <div class="bar-segment active-bg" style="width: 50%;">684</div>
+              <div class="bar-segment fatigue-bg" style="width: 50%;">684</div>
+            </div>
+            <div class="bar-legend">
+              <span><i class="dot active-dot"></i> Active: 684</span>
+              <span><i class="dot fatigue-dot"></i> Fatigue: 684</span>
+            </div>
+          </div>
+
+          <!-- Test Split Card -->
+          <div class="split-card">
+            <div class="split-card-header">
+              <span class="split-title">Test Set</span>
+              <span class="split-pct">15%</span>
+            </div>
+            <div class="split-total">1,368 Images</div>
+            <div class="bar-stacked">
+              <div class="bar-segment active-bg" style="width: 50%;">684</div>
+              <div class="bar-segment fatigue-bg" style="width: 50%;">684</div>
+            </div>
+            <div class="bar-legend">
+              <span><i class="dot active-dot"></i> Active: 684</span>
+              <span><i class="dot fatigue-dot"></i> Fatigue: 684</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4 — DATA PREPROCESSING
+    =========================================== -->
+    <section class="slide" id="slide-4" data-title="Data Preprocessing">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 04</span>
+          <h2>Data Preprocessing & Transformations</h2>
+          <p>Custom aspect ratio padding, data augmentations, and PyTorch DataLoader specifications.</p>
+        </div>
+
+        <div class="preprocessing-grid">
+          <!-- Pipeline card -->
+          <div class="panel-card">
+            <div class="panel-title">
+              <span class="icon">🔄</span> Transformation Pipeline
+            </div>
+            <ul class="pipeline-list">
+              <li class="pipeline-item">
+                <span class="step-num">1</span>
+                <div>
+                  <strong>SquarePadResize(227)</strong>
+                  <p>Aspect-ratio preserving black border padding <code>fill=(0,0,0)</code> followed by bilinear resize to 227×227.</p>
+                </div>
+              </li>
+              <li class="pipeline-item">
+                <span class="step-num">2</span>
+                <div>
+                  <strong>Data Augmentation (Train Only)</strong>
+                  <p><code>RandomHorizontalFlip(p=0.5)</code>, <code>RandomRotation(degrees=10)</code>, <code>ColorJitter(brightness=0.2, contrast=0.2)</code>.</p>
+                </div>
+              </li>
+              <li class="pipeline-item">
+                <span class="step-num">3</span>
+                <div>
+                  <strong>ToTensor & Normalization</strong>
+                  <p>Scales values to [0.0, 1.0] and normalizes with <code>mean=[0.5, 0.5, 0.5]</code>, <code>std=[0.5, 0.5, 0.5]</code>.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Batch & Tensor specs card -->
+          <div class="panel-card">
+            <div class="panel-title">
+              <span class="icon">📦</span> DataLoader & Tensor Batch Specs
+            </div>
+            <div class="specs-grid">
+              <div class="spec-box">
+                <span class="spec-label">BATCH SIZE</span>
+                <span class="spec-value">64</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">IMAGE BATCH SHAPE</span>
+                <span class="spec-value code-text">[64, 3, 227, 227]</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">LABEL BATCH SHAPE</span>
+                <span class="spec-value code-text">[64]</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">IMAGE DTYPE</span>
+                <span class="spec-value code-text">torch.float32</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">LABEL DTYPE</span>
+                <span class="spec-value code-text">torch.int64</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">PIXEL RANGE</span>
+                <span class="spec-value text-cyan">-1.0 to 1.0</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">TRAIN BATCHES</span>
+                <span class="spec-value">100 batches</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label">VAL / TEST BATCHES</span>
+                <span class="spec-value">22 batches each</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 5 — CNN ARCHITECTURE
+    =========================================== -->
+    <section class="slide" id="slide-5" data-title="CNN Architecture">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 05</span>
+          <h2>DrowsinessCNN Architecture</h2>
+          <p>Custom 3-block convolutional neural network with adaptive pooling and dense classifier.</p>
+        </div>
+
+        <div class="architecture-visualizer">
+          <div class="arch-flow">
+            <!-- Block Input -->
+            <div class="arch-block block-input">
+              <span class="block-type">INPUT</span>
+              <span class="block-dim">3 × 227 × 227</span>
+            </div>
+            
+            <div class="arch-arrow">↓</div>
+
+            <!-- Block 1 -->
+            <div class="arch-block block-conv">
+              <div class="block-header-text">Block 1</div>
+              <div class="block-details">
+                <span>Conv2D (3 → 32, 3×3, p=1)</span>
+                <span>BatchNorm2d(32) + ReLU</span>
+                <span>MaxPool2d (2×2, s=2)</span>
+              </div>
+              <span class="block-dim text-cyan">Out: 32 × 113 × 113</span>
+            </div>
+
+            <div class="arch-arrow">↓</div>
+
+            <!-- Block 2 -->
+            <div class="arch-block block-conv">
+              <div class="block-header-text">Block 2</div>
+              <div class="block-details">
+                <span>Conv2D (32 → 64, 3×3, p=1)</span>
+                <span>BatchNorm2d(64) + ReLU</span>
+                <span>MaxPool2d (2×2, s=2)</span>
+              </div>
+              <span class="block-dim text-cyan">Out: 64 × 56 × 56</span>
+            </div>
+
+            <div class="arch-arrow">↓</div>
+
+            <!-- Block 3 -->
+            <div class="arch-block block-conv">
+              <div class="block-header-text">Block 3</div>
+              <div class="block-details">
+                <span>Conv2D (64 → 128, 3×3, p=1)</span>
+                <span>BatchNorm2d(128) + ReLU</span>
+                <span>MaxPool2d (2×2, s=2)</span>
+              </div>
+              <span class="block-dim text-cyan">Out: 128 × 28 × 28</span>
+            </div>
+
+            <div class="arch-arrow">↓</div>
+
+            <!-- Global Pool -->
+            <div class="arch-block block-pool">
+              <div class="block-header-text">Adaptive Avg Pool</div>
+              <span class="block-dim text-violet">Out: 128 × 1 × 1</span>
+            </div>
+
+            <div class="arch-arrow">↓</div>
+
+            <!-- Classifier -->
+            <div class="arch-block block-fc">
+              <div class="block-header-text">Classifier</div>
+              <div class="block-details">
+                <span>Flatten → 128</span>
+                <span>Linear (128 → 64) + ReLU</span>
+                <span>Dropout (p=0.5)</span>
+                <span>Linear (64 → 2)</span>
+              </div>
+              <span class="block-dim text-amber">Out: 2 Logits</span>
+            </div>
+          </div>
+
+          <!-- Parameter Summary Side Card -->
+          <div class="arch-summary-card">
+            <div class="summary-header">
+              <h3>Model Parameters</h3>
+            </div>
+            <div class="param-counter">
+              <span class="param-num">102,082</span>
+              <span class="param-title">Total & Trainable Parameters</span>
+            </div>
+
+            <div class="param-table">
+              <div class="param-row">
+                <span>Conv Layers</span>
+                <span class="code-val">Block 1, 2, 3</span>
+              </div>
+              <div class="param-row">
+                <span>Norm Layers</span>
+                <span class="code-val">BatchNorm2d</span>
+              </div>
+              <div class="param-row">
+                <span>Pooling</span>
+                <span class="code-val">MaxPool2d + AdaptiveAvgPool</span>
+              </div>
+              <div class="param-row">
+                <span>Regularization</span>
+                <span class="code-val">Dropout (0.5)</span>
+              </div>
+              <div class="param-row">
+                <span>Output Classes</span>
+                <span class="code-val text-green">2 (Active / Fatigue)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 6 — FORWARD PASS
+    =========================================== -->
+    <section class="slide" id="slide-6" data-title="Forward Pass">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 06</span>
+          <h2>Tensor Transformation Flow</h2>
+          <p>Step-by-step tensor dimension tracking from input batch [64, 3, 227, 227] to logits [64, 2].</p>
+        </div>
+
+        <div class="tensor-flow-timeline">
+          <div class="tensor-step">
+            <div class="tensor-node node-1">
+              <span class="step-title">Input Batch</span>
+              <span class="tensor-shape">[64, 3, 227, 227]</span>
+            </div>
+            <div class="tensor-connector"></div>
+          </div>
+
+          <div class="tensor-step">
+            <div class="tensor-node node-2">
+              <span class="step-title">Block 1 (Conv32 + Pool)</span>
+              <span class="tensor-shape">[64, 32, 113, 113]</span>
+            </div>
+            <div class="tensor-connector"></div>
+          </div>
+
+          <div class="tensor-step">
+            <div class="tensor-node node-3">
+              <span class="step-title">Block 2 (Conv64 + Pool)</span>
+              <span class="tensor-shape">[64, 64, 56, 56]</span>
+            </div>
+            <div class="tensor-connector"></div>
+          </div>
+
+          <div class="tensor-step">
+            <div class="tensor-node node-4">
+              <span class="step-title">Block 3 (Conv128 + Pool)</span>
+              <span class="tensor-shape">[64, 128, 28, 28]</span>
+            </div>
+            <div class="tensor-connector"></div>
+          </div>
+
+          <div class="tensor-step">
+            <div class="tensor-node node-5">
+              <span class="step-title">Adaptive Pool (1×1)</span>
+              <span class="tensor-shape">[64, 128, 1, 1]</span>
+            </div>
+            <div class="tensor-connector"></div>
+          </div>
+
+          <div class="tensor-step">
+            <div class="tensor-node node-6">
+              <span class="step-title">Flatten & Dense 64</span>
+              <span class="tensor-shape">[64, 64]</span>
+            </div>
+            <div class="tensor-connector"></div>
+          </div>
+
+          <div class="tensor-step">
+            <div class="tensor-node node-final">
+              <span class="step-title">Output Logits</span>
+              <span class="tensor-shape text-green">[64, 2]</span>
+              <div class="output-mapping">
+                <span>[0] Active</span>
+                <span>[1] Fatigue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 7 — TRAINING CONFIG & LOOP
+    =========================================== -->
+    <section class="slide" id="slide-7" data-title="Training Setup">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 07</span>
+          <h2>Training Setup & Execution Loop</h2>
+          <p>PyTorch optimization parameters, learning rate scheduling, and early stopping policy.</p>
+        </div>
+
+        <div class="training-grid">
+          <!-- Config Specs -->
+          <div class="panel-card">
+            <div class="panel-title">
+              <span class="icon">⚙️</span> Hyperparameters & Config
+            </div>
+            <div class="config-table">
+              <div class="config-item">
+                <span class="cfg-name">Max Epochs</span>
+                <span class="cfg-val">15</span>
+              </div>
+              <div class="config-item">
+                <span class="cfg-name">Loss Function</span>
+                <span class="cfg-val code-text">CrossEntropyLoss()</span>
+              </div>
+              <div class="config-item">
+                <span class="cfg-name">Optimizer</span>
+                <span class="cfg-val code-text">Adam (lr=0.001, weight_decay=1e-4)</span>
+              </div>
+              <div class="config-item">
+                <span class="cfg-name">LR Scheduler</span>
+                <span class="cfg-val code-text">ReduceLROnPlateau (factor=0.5, patience=2)</span>
+              </div>
+              <div class="config-item">
+                <span class="cfg-name">Early Stopping</span>
+                <span class="cfg-val text-amber">Patience = 4 Epochs</span>
+              </div>
+              <div class="config-item">
+                <span class="cfg-name">Model Checkpoint</span>
+                <span class="cfg-val text-green">Best Val Loss State Restored</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loop Visualizer -->
+          <div class="panel-card">
+            <div class="panel-title">
+              <span class="icon">🔁</span> Training Loop Iteration
+            </div>
+            <div class="loop-diagram">
+              <div class="loop-box">1. Forward Pass (Model Predictions)</div>
+              <div class="loop-arrow">↓</div>
+              <div class="loop-box">2. CrossEntropy Loss Calculation</div>
+              <div class="loop-arrow">↓</div>
+              <div class="loop-box">3. Loss Backward (Gradients)</div>
+              <div class="loop-arrow">↓</div>
+              <div class="loop-box">4. Adam Optimizer Step</div>
+              <div class="loop-arrow">↓</div>
+              <div class="loop-box highlight-box">5. Scheduler Step & Checkpoint Check</div>
+            </div>
+
+            <div class="early-stop-banner">
+              <span class="banner-icon">⚡</span>
+              <div>
+                <strong>Early Stopping Triggered @ Epoch 13</strong>
+                <p>Best model restored from Epoch 09 before evaluation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 8 — TRAINING RESULTS
+    =========================================== -->
+    <section class="slide" id="slide-8" data-title="Training Results">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 08</span>
+          <h2>Training & Validation Metrics</h2>
+          <p>Exact epoch-by-epoch loss and accuracy curves recorded during model training.</p>
+        </div>
+
+        <div class="key-highlights-row">
+          <div class="highlight-card accent-cyan">
+            <span class="hl-val">0.4277</span>
+            <span class="hl-lbl">Best Validation Loss (Epoch 9)</span>
+          </div>
+          <div class="highlight-card accent-green">
+            <span class="hl-val">76.83%</span>
+            <span class="hl-lbl">Peak Validation Accuracy (Epoch 13)</span>
+          </div>
+          <div class="highlight-card accent-amber">
+            <span class="hl-val">Epoch 13</span>
+            <span class="hl-lbl">Early Stopping Triggered</span>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-container">
+            <h3>Training vs Validation Loss</h3>
+            <canvas id="lossChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3>Training vs Validation Accuracy</h3>
+            <canvas id="accuracyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 9 — TEST RESULTS
+    =========================================== -->
+    <section class="slide" id="slide-9" data-title="Test Evaluation">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 09</span>
+          <h2>Test Evaluation & Confusion Matrix</h2>
+          <p>Unseen test set performance metrics evaluated on 1,368 test images.</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card card-primary">
+            <span class="metric-title">TEST ACCURACY</span>
+            <span class="metric-number">75.66%</span>
+            <span class="metric-sub">0.7566</span>
+          </div>
+          <div class="metric-card card-blue">
+            <span class="metric-title">TEST PRECISION</span>
+            <span class="metric-number">73.56%</span>
+            <span class="metric-sub">0.7356</span>
+          </div>
+          <div class="metric-card card-green">
+            <span class="metric-title">TEST RECALL</span>
+            <span class="metric-number">80.12%</span>
+            <span class="metric-sub">0.8012</span>
+          </div>
+          <div class="metric-card card-violet">
+            <span class="metric-title">TEST F1 SCORE</span>
+            <span class="metric-number">76.70%</span>
+            <span class="metric-sub">0.7670</span>
+          </div>
+        </div>
+
+        <div class="confusion-section">
+          <h3>Confusion Matrix Visualization</h3>
+          <div class="matrix-layout">
+            <div class="matrix-wrapper">
+              <div class="matrix-axis-y">Actual Class</div>
+              <div>
+                <div class="matrix-axis-x">Predicted Class</div>
+                <div class="matrix-grid">
+                  <div class="matrix-header-cell"></div>
+                  <div class="matrix-header-cell">Pred Active</div>
+                  <div class="matrix-header-cell">Pred Fatigue</div>
+
+                  <div class="matrix-header-cell">Actual Active</div>
+                  <div class="matrix-cell cell-tn">
+                    <span class="cell-count">487</span>
+                    <span class="cell-label">True Active (TN)</span>
+                  </div>
+                  <div class="matrix-cell cell-fp">
+                    <span class="cell-count">197</span>
+                    <span class="cell-label">False Fatigue (FP)</span>
+                  </div>
+
+                  <div class="matrix-header-cell">Actual Fatigue</div>
+                  <div class="matrix-cell cell-fn">
+                    <span class="cell-count">136</span>
+                    <span class="cell-label">False Active (FN)</span>
+                  </div>
+                  <div class="matrix-cell cell-tp">
+                    <span class="cell-count">548</span>
+                    <span class="cell-label">True Fatigue (TP)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="matrix-summary-box">
+              <div class="sum-row text-green">
+                <span>Correct Predictions</span>
+                <strong>1,035 / 1,368</strong>
+              </div>
+              <div class="sum-row text-amber">
+                <span>Misclassifications</span>
+                <strong>333 / 1,368</strong>
+              </div>
+              <div class="sum-row">
+                <span>Fatigue Recall Rate</span>
+                <strong>80.12% (548 / 684)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 10 — CLASSIFICATION RESULTS
+    =========================================== -->
+    <section class="slide" id="slide-10" data-title="Per-Class Metrics">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 10</span>
+          <h2>Per-Class Classification Performance</h2>
+          <p>Detailed evaluation breakdown for Active Subjects and Fatigue Subjects.</p>
+        </div>
+
+        <div class="per-class-grid">
+          <!-- Active Card -->
+          <div class="class-perf-card card-active">
+            <div class="perf-card-header">
+              <h3>Active Subjects</h3>
+              <span class="class-badge badge-green">Label 0</span>
+            </div>
+            <div class="perf-metrics">
+              <div class="perf-row">
+                <span class="lbl">Precision</span>
+                <span class="val text-cyan">78.17%</span>
+              </div>
+              <div class="perf-row">
+                <span class="lbl">Recall</span>
+                <span class="val text-blue">71.20%</span>
+              </div>
+              <div class="perf-row">
+                <span class="lbl">F1 Score</span>
+                <span class="val text-violet">74.52%</span>
+              </div>
+              <div class="perf-row">
+                <span class="lbl">Test Support</span>
+                <span class="val">684 Images</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fatigue Card -->
+          <div class="class-perf-card card-fatigue">
+            <div class="perf-card-header">
+              <h3>Fatigue Subjects</h3>
+              <span class="class-badge badge-amber">Label 1</span>
+            </div>
+            <div class="perf-metrics">
+              <div class="perf-row">
+                <span class="lbl">Precision</span>
+                <span class="val text-cyan">73.56%</span>
+              </div>
+              <div class="perf-row">
+                <span class="lbl">Recall</span>
+                <span class="val text-amber">80.12%</span>
+              </div>
+              <div class="perf-row">
+                <span class="lbl">F1 Score</span>
+                <span class="val text-green">76.70%</span>
+              </div>
+              <div class="perf-row">
+                <span class="lbl">Test Support</span>
+                <span class="val">684 Images</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 11 — FINAL INFERENCE FLOW
+    =========================================== -->
+    <section class="slide" id="slide-11" data-title="Inference Flow">
+      <div class="slide-content">
+        <div class="section-header">
+          <span class="section-tag">SECTION 11</span>
+          <h2>Final Model Inference Pipeline</h2>
+          <p>End-to-end execution flow from raw input image to final class prediction.</p>
+        </div>
+
+        <div class="inference-pipeline">
+          <div class="inf-step">
+            <div class="inf-icon">🖼️</div>
+            <div class="inf-title">Input Image</div>
+            <div class="inf-detail">Raw face image input</div>
+          </div>
+
+          <div class="inf-arrow">→</div>
+
+          <div class="inf-step">
+            <div class="inf-icon">📐</div>
+            <div class="inf-title">Preprocessing</div>
+            <div class="inf-detail">SquarePadResize(227) & Normalization</div>
+          </div>
+
+          <div class="inf-arrow">→</div>
+
+          <div class="inf-step">
+            <div class="inf-icon">🧠</div>
+            <div class="inf-title">Custom CNN</div>
+            <div class="inf-detail">DrowsinessCNN Forward Pass</div>
+          </div>
+
+          <div class="inf-arrow">→</div>
+
+          <div class="inf-step">
+            <div class="inf-icon">📊</div>
+            <div class="inf-title">Logits</div>
+            <div class="inf-detail">Raw output tensor [64, 2]</div>
+          </div>
+
+          <div class="inf-arrow">→</div>
+
+          <div class="inf-step highlight-inf">
+            <div class="inf-icon">🎯</div>
+            <div class="inf-title">Classification</div>
+            <div class="inf-detail text-green">Active / Fatigue</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 12 — CONCLUSION
+    =========================================== -->
+    <section class="slide" id="slide-12" data-title="Conclusion">
+      <div class="slide-content conclusion-slide">
+        <div class="section-header center-header">
+          <span class="section-tag">SECTION 12</span>
+          <h2>Project Summary & Key Results</h2>
+          <p>Complete project workflow execution and empirical performance summary.</p>
+        </div>
+
+        <div class="summary-flow-strip">
+          <span>Dataset (9.1k)</span>
+          <span class="sep">→</span>
+          <span>Preprocessing (227×227)</span>
+          <span class="sep">→</span>
+          <span>Custom CNN (102k)</span>
+          <span class="sep">→</span>
+          <span>Training (Adam)</span>
+          <span class="sep">→</span>
+          <span>Testing</span>
+          <span class="sep">→</span>
+          <span class="text-green font-bold">75.66% Accuracy</span>
+        </div>
+
+        <div class="final-card-box">
+          <div class="final-stat">
+            <span class="stat-big text-green">75.66%</span>
+            <span class="stat-sub-text">Final Test Accuracy Achieved</span>
+          </div>
+
+          <div class="key-takeaways">
+            <div class="takeaway-item">
+              <span class="check-icon">✓</span>
+              <span>Balanced dataset of 9,120 face images evenly split into 70% train, 15% validation, and 15% test.</span>
+            </div>
+            <div class="takeaway-item">
+              <span class="check-icon">✓</span>
+              <span>Custom lightweight architecture (102,082 trainable parameters) trained using PyTorch on GPU.</span>
+            </div>
+            <div class="takeaway-item">
+              <span class="check-icon">✓</span>
+              <span>Achieved 80.12% Fatigue Recall with 0.4277 Best Validation Loss restored at checkpoint.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="thank-you-footer">
+          <h3>Thank You — Questions & Discussion</h3>
+          <p>Presentation rendered directly from <code>Drowsiness_Detection.ipynb</code></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Keyboard navigation hint overlay -->
+  <div class="key-hint">
+    <span>Use <kbd>←</kbd> <kbd>→</kbd> keys to navigate slides</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
